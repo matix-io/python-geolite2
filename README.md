@@ -1,13 +1,26 @@
-# pip boilerplate
+# geolite2utils
 
-How do you publish this shit?
+Easily download, extract, and use MaxMind's GeoIP2 Lite database.
 
-1. Clone this repo.
-1. Change the git remote for this repo, so you don't overwrite the boilerplate.
-2. Rename the `my_module` folder to whatever you want, and put your module there.
-3. Make sure `__init__.py` contains everything you want to export.
-4. Edit `setup.py`; replace the `name='my_module'` with whatever your module name is, then edit description, etc.
-5. Edit README.md - this is what shows up as the project readme.
-5. `bash release.sh` to release; version stuff is included in that script.
+```python
+from geolite2utils import GeoLite2Utils
 
-Good luck!
+license_key = 'YOUR_LICENSE_KEY'
+directory = '/local/directory/to/store/geolite/databases'
+geolite2 = GeoLite2Utils(license_key, directory)
+
+# download the archive of the database; this might be hundreds of megabytes depending on the db
+geolite2.download(geolite2.CITY)
+
+# extract the archive
+geolite2.extract(geolite2.CITY)
+
+# clean up the .tar.gz archive so it doesn't waste disk space
+geolite2.cleanup(geolite2.CITY) 
+
+# finally, let's query some ip addresses
+reader = geolite2.reader()
+response = reader.city('128.101.101.101')
+print(response.city.name)
+# 'Minneapolis'
+```

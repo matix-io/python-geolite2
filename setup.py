@@ -6,16 +6,19 @@ with open('VERSION.txt') as f:
 
 
 setup(
-    name='my_module',
+    name='geolite2utils',
     version=version,
-    url='https://my_url',
+    url='https://github.com/matix-io/python-geolite2utils',
     license='MIT',
-    description='Project description',
+    description='Download, extract, and use MaxMind GeoLite2 databases from Python.',
     long_description='',
     author='Connor Bode',
     author_email='connor@matix.io',
     packages=find_packages(),
-    install_requires=[],
+    install_requires=[
+		'requests',
+		'geoip2',
+	],
     zip_safe=False,
     classifiers=[],
 )
