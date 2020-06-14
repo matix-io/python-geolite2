@@ -24,3 +24,19 @@ response = reader.city('128.101.101.101')
 print(response.city.name)
 # 'Minneapolis'
 ```
+
+## Generating a license key
+
+1. [Sign up for a GeoLite2 account](https://www.maxmind.com/en/geolite2/signup)
+2. [Log in to your GeoLite2 account](https://www.maxmind.com/en/account/login)
+3. In the menu on the left, navigate to `Services > My License Key`.
+4. Click `Generate new license key`.
+
+
+## Available Databases
+
+The following databases are available:
+
+- `GeoLite2Utils.CITY`
+- `GeoLite2Utils.COUNTRY`
+- `GeoLite2Utils.ASN`
