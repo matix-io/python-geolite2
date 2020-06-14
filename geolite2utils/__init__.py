@@ -8,8 +8,13 @@ class GeoLite2Utils:
 	COUNTRY_CSV = 'GeoLite2-Country-CSV'
 	
 	def __init__(self, key, directory):
+		import os
+
 		self.key = key
 		self.directory = directory
+
+		if not os.path.exists(self.directory):
+			raise Exception('Directory does not exist: {}'.format(self.directory))
 	
 	def _get_suffix(self, edition_id):
 		suffix = 'zip' if edition_id.endswith('-CSV') else 'tar.gz'
@@ -21,11 +26,11 @@ class GeoLite2Utils:
 	
 	def _get_local_archive_path(self, edition_id):
 		suffix = self._get_suffix(edition_id)
-		return '{}/{}.{}'.replace(self.directory, edition_id, suffix)
+		return '{}/{}.{}'.format(self.directory, edition_id, suffix)
 	
 	def _get_local_db_path(self, edition_id):
 		suffix = self._get_db_suffix(edition_id)
-		return '{}/{}.{}'.replace(self.directory, edition_id, suffix)
+		return '{}/{}.{}'.format(self.directory, edition_id, suffix)
 	
 	def download(self, edition_id):
 		import requests
@@ -33,8 +38,7 @@ class GeoLite2Utils:
 		key = self.key
 		suffix = self._get_suffix(edition_id)
 		local_path = self._get_local_archive_path(edition_id)
-		url = 'https://download.maxmind.com/app/geoip_download?edition_id={}&license_key={}&suffix={}'.replace(edition_id, key, suffix)
-		os.makedirs(self.directory, exist_ok=True)
+		url = 'https://download.maxmind.com/app/geoip_download?edition_id={}&license_key={}&suffix={}'.format(edition_id, key, suffix)
 		res = requests.get(url)
 		with open(local_path, 'wb') as f:
 			f.write(res.content)
@@ -71,6 +75,6 @@ class GeoLite2Utils:
 		import os
 		db_path = self._get_local_db_path(edition_id)
 		if not os.path.exists(db_path):
-			raise Exception('{} does not exist; did you download and extract the database for {}?'.replace(db_path, edition_id))
+			raise Exception('{} does not exist; did you download and extract the database for {}?'.format(db_path, edition_id))
 		import geoip2.database
 		return geoip2.database.Reader(db_path)

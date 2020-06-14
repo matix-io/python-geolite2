@@ -10,16 +10,16 @@ directory = '/local/directory/to/store/geolite/databases'
 geolite2 = GeoLite2Utils(license_key, directory)
 
 # download the archive of the database; this might be hundreds of megabytes depending on the db
-geolite2.download(geolite2.CITY)
+geolite2.download(GeoLite2Utils.CITY)
 
 # extract the archive
-geolite2.extract(geolite2.CITY)
+geolite2.extract(GeoLite2Utils.CITY)
 
 # clean up the .tar.gz archive so it doesn't waste disk space
-geolite2.cleanup(geolite2.CITY) 
+geolite2.cleanup(GeoLite2Utils.CITY) 
 
 # finally, let's query some ip addresses
-reader = geolite2.reader()
+reader = geolite2.reader(GeoLite2Utils.CITY)
 response = reader.city('128.101.101.101')
 print(response.city.name)
 # 'Minneapolis'
@@ -40,3 +40,15 @@ The following databases are available:
 - `GeoLite2Utils.CITY`
 - `GeoLite2Utils.COUNTRY`
 - `GeoLite2Utils.ASN`
+
+
+## Reader documentation
+
+The reader used to open the database is from the official MaxMind python library. [Here's documentation on the reader.](https://geoip2.readthedocs.io/en/latest/#database-example).
+
+The reader is opened using the following line:
+
+```python
+reader = geolite2.reader(GeoLite2Utils.CITY)
+```
+
